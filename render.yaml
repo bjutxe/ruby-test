@@ -1,0 +1,20 @@
+databases:
+  - name: renderpgtest
+    databaseName: renderpgtest
+    user: bjutxe
+    region: singapore
+
+services:
+  - type: web
+    name: renderpgtest
+    env: ruby
+    region: singapore
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: <%= ENV['DATABASE_URL'] %>
+        fromDatabase:
+          name: testapp
+          property: connectionString
+      - key: <%= ENV['RAILS_MASTER_KEY'] %>
+        sync: false
